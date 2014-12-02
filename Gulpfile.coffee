@@ -1,19 +1,22 @@
 path = require('path')
 Promise = require('bluebird')
 del = require('del')
-gulp = require('gulp')
 streamify = require('stream-array')
 through2 = require('through2')
+gulp = require('gulp')
+handlebars = require('gulp-compile-handlebars')
 inkpad = require('./lib/inkpad')
 util = require('./lib/util')
 
 
 data =
   inkpads: {}
+  posts: []
 
 
 paths =
   build: path.join(__dirname, '_build')
+  template: path.join(__dirname, 'template', '*')
 
 
 
@@ -35,10 +38,19 @@ gulp.task "load:inkpads", ->
       data.inkpads[pad.id] = pad
       done()
 
-gulp.task "load", ["load:inkpads"]
+gulp.task "load:posts", ["load:inkpads"], ->
+  data.posts = (data.inkpads[id] for id in data.inkpads["VoAXbudYb2"].linkedInkpads)
+
+gulp.task "load", ["load:inkpads", "load:posts"]
 
 
-gulp.task "default", ["load"]
+gulp.task "template", ["load"], ->
+  gulp.src paths.template
+    .pipe handlebars(data, helpers: {})
+    .pipe gulp.dest(paths.build)
+
+
+gulp.task "default", ["template"]
 
 
 

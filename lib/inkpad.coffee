@@ -104,7 +104,8 @@ Inkpad =
           id = match[1]
           $(@).attr 'href', relPath
           $(@).removeAttr 'title'
-          debugger
+          pad.linkedInkpads ||= []
+          pad.linkedInkpads.push id
           reg.addPad id: id, path: relPath
 
       pad.contents = $.html()

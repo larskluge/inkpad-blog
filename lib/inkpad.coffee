@@ -173,5 +173,21 @@ Inkpad =
 
 
 
+  extractHeaderImage: ->
+
+    transform = (pad, enc, done) ->
+      $ = cheerio.load(pad.contents)
+
+      images = $('img[title*="header" i]')
+      if images.length
+        pad.headerImageUrl = images.attr("src")
+
+      @push pad
+      done()
+
+    through2.obj transform
+
+
+
 module.exports = Inkpad
 

@@ -13,6 +13,9 @@
   <body>
     {{#each posts}}
     <article>
+      {{#if this.headerImageUrl}}
+      <img src="{{this.headerImageUrl}}" alt="Header image for {{this.title}}">
+      {{/if}}
       <h2>{{this.title}}</h2>
       {{#if this.datetime}}
       <time>{{datetime this.datetime "MMM Do, YYYY"}}</time>

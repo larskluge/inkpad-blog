@@ -48,6 +48,7 @@ gulp.task "load:inkpads", ["clean"], ->
     .pipe inkpad.extractTitle()
     .pipe inkpad.extractTime()
     .pipe inkpad.extractTeaser()
+    .pipe inkpad.extractHeaderImage()
     .pipe util.buffer()
     .pipe through2.obj (pad, enc, done) ->
       data.inkpads[pad.id] = pad

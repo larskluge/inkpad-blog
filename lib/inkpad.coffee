@@ -141,16 +141,29 @@ Inkpad =
 
 
 
+  extractTime: ->
+
+    transform = (pad, enc, done) ->
+      $ = cheerio.load(pad.contents)
+      el = $("time")
+      time = el.attr("datetime") or el.text()
+      console.log time
+      if time
+        pad.datetime = new Date(time)
+
+      @push pad
+      done()
+
+    through2.obj transform
+
+
+
   extractTeaser: ->
 
     transform = (pad, enc, done) ->
       $ = cheerio.load(pad.contents)
       $("time").remove()
-      text = $("p").text()
-
-      text = text.substring(0, 255)
-      text = text.replace(/\s\w+$/, '')
-
+      text = $("p").text().substring(0, 255).replace(/\s\w+$/, '')
       pad.teaser = text
 
       @push pad

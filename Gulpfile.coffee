@@ -2,6 +2,7 @@ path = require('path')
 Promise = require('bluebird')
 _ = require('lodash')
 del = require('del')
+moment = require('moment')
 streamify = require('stream-array')
 through2 = require('through2')
 gulp = require('gulp')
@@ -16,6 +17,12 @@ data =
   perPage: 3
   inkpads: {}
   posts: []
+
+handlebarsOptions =
+  helpers:
+    datetime: (timestamp, format) ->
+      format = 'YYYY-MM-DD' unless _.isString(format)
+      moment(timestamp).format(format)
 
 
 paths =
@@ -39,6 +46,7 @@ gulp.task "load:inkpads", ["clean"], ->
     .pipe inkpad.scanForSubPages(reg)
     .pipe inkpad.slicePads()
     .pipe inkpad.extractTitle()
+    .pipe inkpad.extractTime()
     .pipe inkpad.extractTeaser()
     .pipe util.buffer()
     .pipe through2.obj (pad, enc, done) ->
@@ -70,7 +78,7 @@ gulp.task "templates:index", ["load"], ->
           d.prevPageLink = "/page/#{page - 1}"
 
       gulp.src paths.templates.index
-        .pipe handlebars(d)
+        .pipe handlebars(d, handlebarsOptions)
         .pipe rename("#{path}/index.html")
         .pipe gulp.dest(paths.build)
 
@@ -78,7 +86,7 @@ gulp.task "templates:show", ["load"], ->
   Promise.all data.posts
     .each (post) ->
       gulp.src paths.templates.show
-        .pipe handlebars(post: post, availableKeys: _.keys(post))
+        .pipe handlebars(post: post, availableKeys: _.keys(post), handlebarsOptions)
         .pipe rename("#{post.path}/index.html")
         .pipe gulp.dest(paths.build)
 

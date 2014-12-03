@@ -132,8 +132,27 @@ Inkpad =
 
     transform = (pad, enc, done) ->
       $ = cheerio.load(pad.contents)
-      title = $("h1,h2,h3,h4").first().text()
+      title = $("h1,h2,h3,h4,h5,h6").first().text()
       pad.title = title
+      @push pad
+      done()
+
+    through2.obj transform
+
+
+
+  extractTeaser: ->
+
+    transform = (pad, enc, done) ->
+      $ = cheerio.load(pad.contents)
+      $("time").remove()
+      text = $("p").text()
+
+      text = text.substring(0, 255)
+      text = text.replace(/\s\w+$/, '')
+
+      pad.teaser = text
+
       @push pad
       done()
 

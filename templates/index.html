@@ -11,13 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <ul>
-      {{#each posts}}
-      <li>
-        <a href="{{this.path}}">{{this.title}}</a>
-      </li>
-      {{/each}}
-    </ul>
+    {{#each posts}}
+    <article>
+      <h2>{{this.title}}</h2>
+      <p>{{this.teaser}}...</p>
+      <a href="{{this.path}}">Read Full Post</a>
+    </article>
+    {{/each}}
 
     {{#if prevPageLink}}
     <a href="{{prevPageLink}}">Previous Page</a>

@@ -9,6 +9,7 @@
     "del": "^1.0.0",
     "gulp": "^3.8.10",
     "gulp-compile-handlebars": "^0.4.3",
+    "gulp-rename": "^1.2.0",
     "gulp-util": "^3.0.1",
     "lodash": "^2.4.1",
     "request": "^2.49.0",

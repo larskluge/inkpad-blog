@@ -14,5 +14,5 @@ Render 5 blog posts per page (default 3)
 
     mkdir ~/my-inkpad-blog-theme
     cp templates/* ~/my-inkpad-blog-theme/
-    gulp --id 2dFtYP8H76 --templates--path ~/my-inkpad-blog-theme/
+    gulp --id 2dFtYP8H76 --templates-path ~/my-inkpad-blog-theme/
 

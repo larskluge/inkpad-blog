@@ -1,11 +1,16 @@
-# An Inkpad.io-based Blog
+# An Inkpad.io-based Blog Generator
 
-To render this sample blog: http://www.inkpad.io/2dFtYP8H76
+[Ideas and future plans](http://www.inkpad.io/dpOnvOCG0r)
+
+
+## Generate [a sample blog](http://www.inkpad.io/2dFtYP8H76):
 
     gulp --id 2dFtYP8H76
 
+The generated static files output is now in `_build` and can be copied over to your nginx or push to Github Pages or just something that can serve static html files.
 
-Render 5 blog posts per page (default 3)
+
+## Render 5 blog posts per page (default 3)
 
     gulp --id 2dFtYP8H76 --per-page 5
 

@@ -10,7 +10,6 @@ buffer = ->
     done()
 
   flush = (done) ->
-    console.log 'Buffer: flushing..'
     for obj in all
       @push obj
     done()

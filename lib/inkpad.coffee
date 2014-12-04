@@ -19,7 +19,6 @@ Inkpad =
 
 
   allLoaded: (pads) ->
-    console.log "ALLLOADED #{_.keys(pads).length}"
     for id, pad of pads
       if !pad.loaded
         return false
@@ -28,7 +27,6 @@ Inkpad =
 
 
   registry: ->
-    console.log 'REGISTRY'
     pads = {}
 
     transform = (pad, enc, done) ->
@@ -41,7 +39,6 @@ Inkpad =
     flush = (done) ->
       fn = ->
         if Inkpad.allLoaded pads
-          console.log "Flushing Registry"
           done()
         else
           setTimeout fn, 100
@@ -49,7 +46,6 @@ Inkpad =
 
     r = through2.obj transform, flush
     r.addPad = (pad) ->
-      console.log "Add Pad #{pad.id}"
       transform.call r, pad, null, ->
       pads[pad.id].path = pad.path
     r
@@ -65,7 +61,7 @@ Inkpad =
       pads[id] = pad
 
       uri = "http://www.inkpad.io/#{id}"
-      gutil.log "[inkpad] Loading #{uri}.."
+      gutil.log "[inkpad] Loading #{uri}"
 
       self = @
       req.getAsync(uri)
@@ -79,7 +75,6 @@ Inkpad =
     flush = (done) ->
       fn = ->
         if Inkpad.allLoaded pads
-          console.log "Flushing Load Pads"
           done()
         else
           setTimeout ->
@@ -147,10 +142,8 @@ Inkpad =
       $ = cheerio.load(pad.contents)
       el = $("time")
       time = el.attr("datetime") or el.text()
-      console.log time
       if time
         pad.datetime = new Date(time)
-
       @push pad
       done()
 
@@ -165,7 +158,6 @@ Inkpad =
       $("time").remove()
       text = $("p").text().substring(0, 255).replace(/\s\w+$/, '')
       pad.teaser = text
-
       @push pad
       done()
 
@@ -181,7 +173,6 @@ Inkpad =
       images = $('img[alt*="header" i]')
       if images.length
         pad.headerImageUrl = images.attr("src")
-
       @push pad
       done()
 

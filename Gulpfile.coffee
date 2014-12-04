@@ -8,10 +8,18 @@ through2 = require('through2')
 gulp = require('gulp')
 handlebars = require('gulp-compile-handlebars')
 rename = require('gulp-rename')
+minimist = require('minimist')
 
 inkpad = require('./lib/inkpad')
 util = require('./lib/util')
 
+
+knownOptions =
+  string: 'id'
+  alias:
+    'inkpadId': 'id'
+
+options = minimist(process.argv.slice(2), knownOptions)
 
 data =
   perPage: 3
@@ -40,7 +48,7 @@ gulp.task "clean", (cb) ->
 gulp.task "load:inkpads", ["clean"], ->
   reg = inkpad.registry()
 
-  streamify([id: "VoAXbudYb2"])
+  streamify([id: options.inkpadId])
     .pipe reg
     .pipe inkpad.loadPads()
     .pipe inkpad.scanForSubPages(reg)
@@ -55,7 +63,7 @@ gulp.task "load:inkpads", ["clean"], ->
       done()
 
 gulp.task "load:posts", ["load:inkpads"], ->
-  data.posts = (data.inkpads[id] for id in data.inkpads["VoAXbudYb2"].linkedInkpads)
+  data.posts = (data.inkpads[id] for id in data.inkpads[options.inkpadId].linkedInkpads)
 
 gulp.task "load", ["load:inkpads", "load:posts"]
 

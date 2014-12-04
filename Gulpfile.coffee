@@ -15,14 +15,15 @@ util = require('./lib/util')
 
 
 knownOptions =
-  string: 'id'
+  string: ['id', 'per-page']
   alias:
     'inkpadId': 'id'
 
 options = minimist(process.argv.slice(2), knownOptions)
 
+
 data =
-  perPage: 3
+  perPage: parseInt(options['per-page'], 10) or 3
   inkpads: {}
   posts: []
 

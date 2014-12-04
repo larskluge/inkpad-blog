@@ -37,8 +37,8 @@ handlebarsOptions =
 paths =
   build: path.join(__dirname, '_build')
   templates:
-    index: path.join(__dirname, 'templates/index.html')
-    show: path.join(__dirname, 'templates/show.html')
+    index: path.join(__dirname, 'templates/index.html.handlebars')
+    show: path.join(__dirname, 'templates/show.html.handlebars')
 
 
 

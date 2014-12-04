@@ -1,7 +1,17 @@
 {
   "name": "inkpad-blog",
-  "private": true,
+  "description": "An Inkpad.io-based Blog Generator",
+  "keywords": [
+    "blog",
+    "inkpad",
+    "markdown"
+  ],
   "version": "0.0.1",
+  "author": "Lars Kluge <l@larskluge.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/larskluge/inkpad-blog"
+  },
   "dependencies": {
     "bluebird": "^2.3.11",
     "cheerio": "^0.18.0",

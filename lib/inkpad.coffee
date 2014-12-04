@@ -178,7 +178,7 @@ Inkpad =
     transform = (pad, enc, done) ->
       $ = cheerio.load(pad.contents)
 
-      images = $('img[title*="header" i]')
+      images = $('img[alt*="header" i]')
       if images.length
         pad.headerImageUrl = images.attr("src")
 

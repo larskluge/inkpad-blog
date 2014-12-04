@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{post.title}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>article img { width: 100%; }</style>
   </head>
   <body>
-  {{availableKeys}}
-  <hr>
-  {{{post.contents}}}
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          {{availableKeys}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <article>
+            {{{post.contents}}}
+          </article>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
 

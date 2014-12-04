@@ -15,9 +15,11 @@ util = require('./lib/util')
 
 
 knownOptions =
-  string: ['id', 'per-page']
+  string: ['id', 'per-page', 'templates-path']
   alias:
     'inkpadId': 'id'
+  default:
+    'templates-path': path.join(__dirname, 'templates')
 
 options = minimist(process.argv.slice(2), knownOptions)
 
@@ -37,8 +39,8 @@ handlebarsOptions =
 paths =
   build: path.join(__dirname, '_build')
   templates:
-    index: path.join(__dirname, 'templates/index.html.handlebars')
-    show: path.join(__dirname, 'templates/show.html.handlebars')
+    index: path.join(options['templates-path'], 'index.html.handlebars')
+    show: path.join(options['templates-path'], 'show.html.handlebars')
 
 
 

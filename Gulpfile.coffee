@@ -11,13 +11,16 @@ rename = require('gulp-rename')
 deploy = require('gulp-gh-pages')
 minimist = require('minimist')
 fs = require('fs')
+os = require('os')
+exec = Promise.promisify(require('child_process').exec)
+
 
 inkpad = require('./lib/inkpad')
 util = require('./lib/util')
 
 
 knownOptions =
-  string: ['id', 'per-page', 'templates-path']
+  string: ['id', 'per-page', 'templates-path', 'deploy-to']
   alias:
     'inkpadId': 'id'
   default:
@@ -108,13 +111,13 @@ gulp.task "templates", ["templates:index", "templates:show"]
 
 
 gulp.task "update:deploy-repo", ->
-  deployRepoPath = "/tmp/tmpRepo"
+  deployRepoPath = path.join(os.tmpdir(), 'tmpRepo')
   if fs.existsSync deployRepoPath
     exec "git pull", cwd: deployRepoPath
 
 gulp.task "deploy", ["templates", "update:deploy-repo"], ->
-  gulp.src(path.join(paths.build, "**/*"))
-    .pipe deploy()
+  gulp.src path.join(paths.build, "**/*")
+    .pipe deploy(remoteUrl: options['deploy-to'])
 
 
 gulp.task "default", ["templates"]

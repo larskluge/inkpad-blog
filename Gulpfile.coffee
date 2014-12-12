@@ -8,7 +8,9 @@ through2 = require('through2')
 gulp = require('gulp')
 handlebars = require('gulp-compile-handlebars')
 rename = require('gulp-rename')
+deploy = require('gulp-gh-pages')
 minimist = require('minimist')
+fs = require('fs')
 
 inkpad = require('./lib/inkpad')
 util = require('./lib/util')
@@ -77,7 +79,7 @@ gulp.task "templates:index", ["load"], ->
     .each (posts, i) ->
       d = posts: posts
       page = i + 1
-      path = if page == 1 then "/" else "/page/#{page}"
+      destPath = if page == 1 then "/" else "/page/#{page}"
       lastPage = page == pages.length
 
       unless lastPage
@@ -91,7 +93,7 @@ gulp.task "templates:index", ["load"], ->
 
       gulp.src paths.templates.index
         .pipe handlebars(d, handlebarsOptions)
-        .pipe rename("#{path}/index.html")
+        .pipe rename("#{destPath}/index.html")
         .pipe gulp.dest(paths.build)
 
 gulp.task "templates:show", ["load"], ->
@@ -103,6 +105,16 @@ gulp.task "templates:show", ["load"], ->
         .pipe gulp.dest(paths.build)
 
 gulp.task "templates", ["templates:index", "templates:show"]
+
+
+gulp.task "update:deploy-repo", ->
+  deployRepoPath = "/tmp/tmpRepo"
+  if fs.existsSync deployRepoPath
+    exec "git pull", cwd: deployRepoPath
+
+gulp.task "deploy", ["templates", "update:deploy-repo"], ->
+  gulp.src(path.join(paths.build, "**/*"))
+    .pipe deploy()
 
 
 gulp.task "default", ["templates"]

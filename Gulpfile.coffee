@@ -13,6 +13,7 @@ minimist = require('minimist')
 fs = require('fs')
 os = require('os')
 exec = Promise.promisify(require('child_process').exec)
+ps = require('promise-streams')
 
 
 inkpad = require('./lib/inkpad')
@@ -79,7 +80,7 @@ gulp.task "load", ["load:inkpads", "load:posts"]
 gulp.task "templates:index", ["load"], ->
   pages = _.chain(data.posts).groupBy((n,i) -> i // data.perPage).values().value()
   Promise.all pages
-    .each (posts, i) ->
+    .map (posts, i) ->
       d = posts: posts
       page = i + 1
       destPath = if page == 1 then "/" else "/page/#{page}"
@@ -98,14 +99,18 @@ gulp.task "templates:index", ["load"], ->
         .pipe handlebars(d, handlebarsOptions)
         .pipe rename("#{destPath}/index.html")
         .pipe gulp.dest(paths.build)
+    .map (stream) ->
+      ps.wait(stream)
 
 gulp.task "templates:show", ["load"], ->
   Promise.all data.posts
-    .each (post) ->
+    .map (post) ->
       gulp.src paths.templates.show
         .pipe handlebars(post: post, availableKeys: _.keys(post), handlebarsOptions)
         .pipe rename("#{post.path}/index.html")
         .pipe gulp.dest(paths.build)
+    .map (stream) ->
+      ps.wait(stream)
 
 gulp.task "templates", ["templates:index", "templates:show"]
 

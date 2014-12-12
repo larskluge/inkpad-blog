@@ -47,6 +47,7 @@ paths =
   templates:
     index: path.join(options['templates-path'], 'index.html.handlebars')
     show: path.join(options['templates-path'], 'show.html.handlebars')
+    public: path.join(options['templates-path'], 'public', '**', '*')
 
 
 
@@ -115,15 +116,23 @@ gulp.task "templates:show", ["load"], ->
 gulp.task "templates", ["templates:index", "templates:show"]
 
 
+gulp.task "copy", ["clean"], ->
+  gulp.src paths.templates.public
+    .pipe gulp.dest(paths.build)
+
+
+gulp.task "compile", ["templates", "copy"]
+
+
 gulp.task "update:deploy-repo", ->
   deployRepoPath = path.join(os.tmpdir(), 'tmpRepo')
   if fs.existsSync deployRepoPath
     exec "git pull", cwd: deployRepoPath
 
-gulp.task "deploy", ["templates", "update:deploy-repo"], ->
+gulp.task "deploy", ["compile", "update:deploy-repo"], ->
   gulp.src path.join(paths.build, "**/*")
     .pipe deploy(remoteUrl: options['deploy-to'])
 
 
-gulp.task "default", ["templates"]
+gulp.task "default", ["compile"]
 

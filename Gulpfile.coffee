@@ -42,12 +42,13 @@ handlebarsOptions =
       moment(timestamp).format(format)
 
 
+templatesPath = path.resolve process.env.INIT_CWD, options['templates-path']
 paths =
   build: path.join(__dirname, '_build')
   templates:
-    index: path.join(options['templates-path'], 'index.html.handlebars')
-    show: path.join(options['templates-path'], 'show.html.handlebars')
-    public: path.join(options['templates-path'], 'public', '**', '*')
+    index: path.join(templatesPath, 'index.html.handlebars')
+    show: path.join(templatesPath, 'show.html.handlebars')
+    public: path.join(templatesPath, 'public', '**', '*')
 
 
 

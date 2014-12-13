@@ -51,7 +51,22 @@ paths =
 
 
 
-gulp.task "clean", (cb) ->
+gulp.task "check:templates:index", ->
+  unless fs.existsSync paths.templates.index
+    console.log "Index template not found, expected index.html.handlebars to be in '#{templatesPath}'."
+    process.exit(1)
+
+gulp.task "check:templates:show", ->
+  unless fs.existsSync paths.templates.show
+    console.log "Show template not found, expected show.html.handlebars to be in '#{templatesPath}'."
+    process.exit(1)
+
+gulp.task "check:templates", ["check:templates:index", "check:templates:show"]
+
+gulp.task "check", ["check:templates"]
+
+
+gulp.task "clean", ["check"], (cb) ->
   del "#{paths.build}/*", cb
 
 

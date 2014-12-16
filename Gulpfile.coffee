@@ -104,13 +104,13 @@ gulp.task "templates:index", ["load"], ->
       lastPage = page == pages.length
 
       unless lastPage
-        d.nextPageLink = "/page/#{page + 1}"
+        d.nextPageLink = "/page/#{page + 1}/"
 
       switch
         when page == 2
           d.prevPageLink = "/"
         when page > 2
-          d.prevPageLink = "/page/#{page - 1}"
+          d.prevPageLink = "/page/#{page - 1}/"
 
       gulp.src paths.templates.index
         .pipe handlebars(d, handlebarsOptions)

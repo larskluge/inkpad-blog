@@ -5,7 +5,7 @@
 
 ## Install
 
-   npm install -g inkpad-blog
+    npm install -g inkpad-blog
 
 
 ## Generate [a sample blog](http://www.inkpad.io/2dFtYP8H76):

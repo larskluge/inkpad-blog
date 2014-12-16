@@ -6,7 +6,7 @@
     "inkpad",
     "markdown"
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Lars Kluge <l@larskluge.com>",
   "bin": "./bin/inkpad-blog.js",
   "repository": {

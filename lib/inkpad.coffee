@@ -116,6 +116,7 @@ Inkpad =
     transform = (pad, enc, done) ->
       $ = cheerio.load(pad.contents)
       pad.contents = $(".markdown-body").html()
+      pad.normalizedContents = pad.contents
       @push pad
       done()
 
@@ -126,9 +127,12 @@ Inkpad =
   extractTitle: ->
 
     transform = (pad, enc, done) ->
-      $ = cheerio.load(pad.contents)
-      title = $("h1,h2,h3,h4,h5,h6").first().text()
+      $ = cheerio.load(pad.normalizedContents)
+      titleEl = $("h1,h2,h3,h4,h5,h6").first()
+      title = titleEl.text()
       pad.title = title
+      titleEl.remove()
+      pad.normalizedContents = $.html()
       @push pad
       done()
 
@@ -136,28 +140,16 @@ Inkpad =
 
 
 
-  extractTime: ->
+  extractTimestamp: ->
 
     transform = (pad, enc, done) ->
-      $ = cheerio.load(pad.contents)
-      el = $("time")
+      $ = cheerio.load(pad.normalizedContents)
+      el = $("time").first()
       time = el.attr("datetime") or el.text()
       if time
-        pad.datetime = new Date(time)
-      @push pad
-      done()
-
-    through2.obj transform
-
-
-
-  extractTeaser: ->
-
-    transform = (pad, enc, done) ->
-      $ = cheerio.load(pad.contents)
-      $("time").remove()
-      text = $("p").text().substring(0, 255).replace(/\s\w+$/, '')
-      pad.teaser = text
+        pad.timestamp = new Date(time)
+        el.remove()
+        pad.normalizedContents = $.html()
       @push pad
       done()
 
@@ -168,11 +160,26 @@ Inkpad =
   extractHeaderImage: ->
 
     transform = (pad, enc, done) ->
-      $ = cheerio.load(pad.contents)
+      $ = cheerio.load(pad.normalizedContents)
 
-      images = $('img[alt*="header" i]')
-      if images.length
-        pad.headerImageUrl = images.attr("src")
+      el = $('img[alt*="header" i]').first()
+      if el
+        pad.headerImageUrl = el.attr("src")
+        el.remove()
+        pad.normalizedContents = $.html()
+      @push pad
+      done()
+
+    through2.obj transform
+
+
+
+  extractTeaser: ->
+
+    transform = (pad, enc, done) ->
+      $ = cheerio.load(pad.normalizedContents)
+      text = $("p").text().substring(0, 255).replace(/\s\w+$/, '')
+      pad.teaser = text
       @push pad
       done()
 

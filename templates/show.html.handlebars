@@ -43,13 +43,13 @@
         <div class="col-xs-12">
           <article>
             <h1>{{post.title}}</h1>
-            {{#if post.datetime}}
-            <time>{{post.timestamp}}</time>
+            {{#if post.timestamp}}
+            <time>{{datetime this.timestamp "MMM Do, YYYY"}}</time>
             {{/if}}
             {{#if post.headerImageUrl}}
             <img src="{{post.headerImageUrl}}" alt="Header image for {{post.title}}">
             {{/if}}
-            {{{post.contents}}}
+            {{{post.normalizedContents}}}
           </article>
         </div>
       </div>

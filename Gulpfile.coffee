@@ -121,9 +121,18 @@ gulp.task "templates:index", ["load"], ->
 
 gulp.task "templates:show", ["load"], ->
   Promise.all data.posts
-    .map (post) ->
+    .map (post, i) ->
+      d = post: post, availableKeys: _.keys(post)
+
+      prevPost = data.posts[i - 1]
+      nextPost = data.posts[i + 1]
+      if prevPost
+        d.prevPostLink = "#{prevPost.path}/index.html"
+      if nextPost
+        d.nextPostLink = "#{nextPost.path}/index.html"
+
       gulp.src paths.templates.show
-        .pipe handlebars(post: post, availableKeys: _.keys(post), handlebarsOptions)
+        .pipe handlebars(d, handlebarsOptions)
         .pipe rename("#{post.path}/index.html")
         .pipe gulp.dest(paths.build)
     .map (stream) ->

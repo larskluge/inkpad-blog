@@ -127,9 +127,9 @@ gulp.task "templates:show", ["load"], ->
       prevPost = data.posts[i - 1]
       nextPost = data.posts[i + 1]
       if prevPost
-        d.prevPostLink = "#{prevPost.path}/index.html"
+        d.prevPostLink = prevPost.path
       if nextPost
-        d.nextPostLink = "#{nextPost.path}/index.html"
+        d.nextPostLink = nextPost.path
 
       gulp.src paths.templates.show
         .pipe handlebars(d, handlebarsOptions)

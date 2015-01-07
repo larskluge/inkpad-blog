@@ -93,7 +93,7 @@ Inkpad =
       $('a[href*="inkpad.io"]').each ->
         relPath = $(@).attr 'title'
         uri = $(@).attr 'href'
-        match = url.parse(uri).pathname.match /^\/([a-z0-9]{10})$/i
+        match = url.parse(uri).pathname.match /^\/([a-z0-9]{10})/i
 
         if relPath?.search(/^\//) >= 0 and match
           id = match[1]

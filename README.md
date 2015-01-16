@@ -1,6 +1,6 @@
 # An Inkpad.io-based Blog Generator
 
-[Ideas and future plans](http://www.inkpad.io/dpOnvOCG0r)
+[Ideas and future plans](https://www.inkpad.io/dpOnvOCG0r)
 
 
 ## Install
@@ -8,7 +8,7 @@
     npm install -g inkpad-blog
 
 
-## Generate [a sample blog](http://www.inkpad.io/2dFtYP8H76):
+## Generate [a sample blog](https://www.inkpad.io/2dFtYP8H76):
 
     inkpad-blog --id 2dFtYP8H76
 

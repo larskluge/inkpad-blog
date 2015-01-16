@@ -60,7 +60,7 @@ Inkpad =
       pad.loaded = false
       pads[id] = pad
 
-      uri = "http://www.inkpad.io/#{id}"
+      uri = "https://www.inkpad.io/#{id}"
       gutil.log "[inkpad] Loading #{uri}"
 
       self = @

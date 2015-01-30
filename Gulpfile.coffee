@@ -150,12 +150,14 @@ gulp.task "compile", ["templates", "copy"]
 
 
 gulp.task "update:deploy-repo", ->
-  deployRepoPath = path.join(os.tmpdir(), 'tmpRepo')
+  deployRepoPath = path.join(os.tmpdir(), "tmpRepo")
   if fs.existsSync deployRepoPath
-    exec("git pull", cwd: deployRepoPath)
-      .catch (e) ->
-        console.log "Deleting the deploy repository (#{deployRepoPath}); please re-run the command to get a freshly cloned one."
-        del.sync deployRepoPath, force: true
+    if fs.existsSync path.join(deployRepoPath, ".git")
+      exec("git pull", cwd: deployRepoPath)
+        .catch (e) ->
+          console.log "Deleting the deploy repository (#{deployRepoPath}); please re-run the command to get a freshly cloned one."
+    else
+      del.sync deployRepoPath, force: true
 
 
 gulp.task "deploy", ["compile", "update:deploy-repo"], ->

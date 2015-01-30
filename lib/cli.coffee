@@ -15,6 +15,10 @@ module.exports =
       console.log def.version
     else
       console.log "#{def.name}@#{def.version}"
+
+      argv = (item for item in argv when item isnt "deploy")
+      argv.unshift "deploy" if "--deploy-to" in argv
+
       console.log gulpPath, argv.join(" ")
       spawn gulpPath, argv, stdio: ["ignore", process.stdout, process.stderr]
 

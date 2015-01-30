@@ -26,8 +26,6 @@ The generated static files output is now in `_build` and can be copied over to y
     cp templates/* ~/my-inkpad-blog-theme/
     inkpad-blog --id 2dFtYP8H76 --templates-path ~/my-inkpad-blog-theme/
 
-### Static assets & files
-
-All files placed in a folder called `public` within the template-path will be copied over, preserving their path and name. This should help with JS, CSS,
-images, CNAME files, etc.
+`Note` All files placed in a folder called `public` within the template-path will be copied over, preserving their path and name. This helps with JS, CSS,
+images, CNAME, and other asset files that are required by your theme.
 
